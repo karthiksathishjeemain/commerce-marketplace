@@ -18,7 +18,19 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin(origin, callback) {
+      // Allow non-browser requests (no Origin header)
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      const normalized = origin.replace(/\/+$/, "");
+      if (env.ALLOWED_ORIGINS.includes(normalized)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error(`CORS blocked origin: ${origin}`));
+    },
     credentials: true,
   })
 );

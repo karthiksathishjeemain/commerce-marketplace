@@ -11,6 +11,10 @@ function emptyToUndefined(val: unknown) {
   return val;
 }
 
+function normalizeOrigin(url: string): string {
+  return url.trim().replace(/\/+$/, "");
+}
+
 const envSchema = z.object({
   DATABASE_URL: z.string().url().or(z.string().startsWith("postgresql://")),
   JWT_SECRET: z.string().min(32),
@@ -20,7 +24,7 @@ const envSchema = z.object({
     emptyToUndefined,
     z.string().startsWith("whsec_").optional()
   ),
-  FRONTEND_URL: z.string().url(),
+  FRONTEND_URL: z.string().min(1),
   PORT: z.coerce.number().default(4000),
   NODE_ENV: z.enum(["development", "production", "test"]).default("production"),
 });
@@ -34,7 +38,28 @@ function parseEnv() {
     console.error("[env] Invalid environment variables:", missing);
     throw new Error(`Server configuration error: ${missing}`);
   }
-  return result.data;
+
+  const allowedOrigins = result.data.FRONTEND_URL.split(",")
+    .map(normalizeOrigin)
+    .filter(Boolean);
+
+  if (allowedOrigins.length === 0) {
+    throw new Error("Server configuration error: FRONTEND_URL is required");
+  }
+
+  for (const origin of allowedOrigins) {
+    try {
+      new URL(origin);
+    } catch {
+      throw new Error(`Server configuration error: invalid FRONTEND_URL origin "${origin}"`);
+    }
+  }
+
+  return {
+    ...result.data,
+    FRONTEND_URL: allowedOrigins[0],
+    ALLOWED_ORIGINS: allowedOrigins,
+  };
 }
 
 export const env = parseEnv();
