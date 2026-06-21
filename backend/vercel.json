@@ -1,12 +1,15 @@
 {
   "version": 2,
   "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run build",
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "buildCommand": "prisma generate && npm run build",
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }],
   "functions": {
     "api/index.ts": {
       "maxDuration": 30,
       "memory": 1024
+    },
+    "api/health.ts": {
+      "maxDuration": 10
     }
   }
 }
