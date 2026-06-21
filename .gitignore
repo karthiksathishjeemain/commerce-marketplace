@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets (keep example files for setup docs)
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs & debug
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Testing & coverage
+coverage/
+.nyc_output/
+
+# Caches & temp
+.turbo/
+.cache/
+.parcel-cache/
+*.tsbuildinfo
+.eslintcache
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Deployment
+.vercel/
+
+# Optional local certs
+*.pem
