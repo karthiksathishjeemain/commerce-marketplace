@@ -1,0 +1,9 @@
+{
+  "name": "commerce-marketplace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Monorepo — deploy backend and frontend as two separate Vercel projects.",
+  "scripts": {
+    "build": "node scripts/vercel-root-hint.js"
+  }
+}

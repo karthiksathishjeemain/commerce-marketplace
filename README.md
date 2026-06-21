@@ -131,8 +131,11 @@ npm run db:seed
 
 ### Step 2 — Deploy backend
 
+> **Important:** In Vercel → Project Settings → **General** → **Root Directory**, set **`backend`** and click Save.  
+> If Root Directory is empty or `.`, the build will fail immediately at `npm install`.
+
 1. Go to [vercel.com/new](https://vercel.com/new) → Import `commerce-marketplace` repo
-2. Set **Root Directory** to `backend`
+2. Set **Root Directory** to `backend` ← required
 3. Framework Preset: **Other**
 4. Add environment variables:
 
@@ -151,8 +154,10 @@ Verify: `https://YOUR-BACKEND-URL/api/health` should return `{"status":"ok",...}
 
 ### Step 3 — Deploy frontend
 
+> Set **Root Directory** to **`frontend`**.
+
 1. New Vercel project → same repo
-2. Set **Root Directory** to `frontend`
+2. Set **Root Directory** to `frontend` ← required
 3. Framework Preset: **Next.js** (auto-detected)
 4. Add environment variable:
 
